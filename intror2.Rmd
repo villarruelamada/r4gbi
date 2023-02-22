@@ -7,33 +7,45 @@ output:
     df_print: paged
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+##Operaciones basicas
+#Las operaciones de matemáticas, lógica y de asignación.
 
+x = c(1:100)
+xi = sum(x)/length(x)
+xi
+echo=TRUE
 
+#vectores con datos ausentes
+
+x1 = c(1:10, NaN, 10:-20, NaN, 27)
+x1i = sum(x1, na.rm = TRUE)/length(x1)
+x1i
+echo=TRUE
 #Manipulacion de datos
-```{r tidy, echo=TRUE}
-library(tidyverse)
+
+library(ggpubr); library(tidyverse); library(ggplot2)
+echo=TRUE
+
+#Data diamonds
+
+df = diamonds %>% ggplot(aes(x=depth, y=price, color=cut )) + 
+  geom_point(size=0.2) + facet_wrap(cut ~.)
+df
+
+#Diagrama de cajas y bigotes
+
+df2 = diamonds %>% filter(price <= 10000)  %>% 
+  ggplot(aes(x=cut, y=price, color=clarity )) + 
+  geom_boxplot() + geom_jitter(size=0.1, alpha=0.2) +
+  facet_wrap(clarity ~.)
+df2
 
 
+##TAREA##
 
-## R Markdown
+data("who")
+formula= y ~ x
+df3=  who %>% filter (year >=1996, year <= 2012) %>%
+  ggplot(aes(x=new_sp_m014, na.rm - TRUE, y=new_sp_f014, color=year)) + geom_point(size=0.5) + geom_jitter(size=0.5, alpha=0.5) + stat_poly_line(formula=formula, size= 0.5) + stat_ply_eq(use_label(c("eq", "adj.R2)), formula=formula, size =2) + facet_wrap(year ~.)
+  df3
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
